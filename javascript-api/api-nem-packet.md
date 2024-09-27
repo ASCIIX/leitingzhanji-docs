@@ -48,3 +48,34 @@ nem.logger('info', result)
     }
 ]
 ```
+
+### 这是一个小示例
+```javascript
+const payload = `{"head":{"cmdDataSplitLength":0,"cmdId":11,"cmdLength":0,"cmdSequence":"{cmdSequence}","cmdVersion":4,"headVersion":0,"timestamp":"{timestamp}","crcVerify":0,"platform":0,"reconnect":false,"sid":"{sid}","uid":"{uid}"},"shopIndex":0,"sdTargetData":{"type":11,"sd_id":2,"quality":2,"level":0,"num":1},"adBuy":"0"}`;
+const result = nem.packet.send(payload);
+
+// 检查 result 是否是字符串，如果是则使用 JSON.parse 进行解析
+let parsedResult;
+if (typeof result === 'string') {
+  parsedResult = JSON.parse(result);
+} else {
+  parsedResult = result;
+}
+
+// 提取 "gain" 字段
+const gain1 = parsedResult.head.gain;
+// 将 gain1 的值重新赋予 gain 
+const gain = gain1
+// 格式化一下，利用内部格式转换。
+const result1 = nem.packet.gain2json(gain)
+// 输出转换后的数据。
+nem.logger('info', result1)
+// 输出原始 gain 的值
+nem.logger('info', `提取的 gain 值: ${gain}`);
+```
+#### 输出结果
+```
+ [{"name":"圣光","color":"green","num":"1"}]
+ 提取的 gain 值: 0x11x2x2x0x1#,#
+```
+### 好了，现在你学会该怎用了，快去写一个一键完成所有日常任务吧。
